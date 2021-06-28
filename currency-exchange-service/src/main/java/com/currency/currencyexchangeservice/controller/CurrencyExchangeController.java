@@ -8,17 +8,18 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
+@RequestMapping("/exchange-service")
 public class CurrencyExchangeController {
 
     @Autowired
     private ExchangeService exchangeService;
 
-    @GetMapping("/exchange-service/from/{from}/to/{to}")
+    @GetMapping("/from/{from}/to/{to}")
     public CurrencyExchangeRate getCurrencyExchangeRate(@PathVariable String from, @PathVariable String to){
         return exchangeService.findRate(from,to);
     }
 
-    @PostMapping("/exchange-service")
+    @PostMapping("/")
     public boolean addCurrencyExchangeRate(@RequestBody CurrencyExchangeRate currencyExchangeRate){
         boolean flag=exchangeService.addRate(currencyExchangeRate);
         return flag;
