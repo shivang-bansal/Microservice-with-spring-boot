@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/conversion-service")
+@RequestMapping
 public class CurrencyConversionController {
 
 
@@ -21,7 +21,7 @@ public class CurrencyConversionController {
                                                           @PathVariable BigDecimal quantity){
         RestTemplate restTemplate=new RestTemplate();
         ResponseEntity<CurrencyConversionObj> responseEntity =
-                restTemplate.getForEntity("http://localhost:9001/exchange-service/from/"+from+"/to/"+to,CurrencyConversionObj.class);
+                restTemplate.getForEntity("http://localhost:9001/from/"+from+"/to/"+to,CurrencyConversionObj.class);
 
         CurrencyConversionObj response=responseEntity.getBody();
         return new CurrencyConversionObj(1001,from,to,quantity,

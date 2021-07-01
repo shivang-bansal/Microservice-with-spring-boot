@@ -1,7 +1,9 @@
 package com.user.userservice.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +11,8 @@ import java.util.Set;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -29,17 +33,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles=new HashSet<>();
 
-    public User(){
-    }
-
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User(String email, String password, Set<Role> roles) {
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
+
 }

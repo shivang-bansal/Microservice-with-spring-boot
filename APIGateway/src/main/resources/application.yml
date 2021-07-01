@@ -4,3 +4,5 @@ spring:
   application:
     name: api-gateway
 
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie

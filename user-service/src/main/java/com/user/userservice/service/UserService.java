@@ -7,6 +7,8 @@ import com.user.userservice.model.User;
 import com.user.userservice.repository.RoleRepository;
 import com.user.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,15 +25,18 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    private PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
     public Boolean createUser(User user) {
         if (userRepository.existsByEmail(user.getEmail()))
             return false;
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
-
-        roles.add(roleRepository.findByName(ERole.ROLE_GENERAL).orElseThrow(() -> new RuntimeException("Role is not Found")));
-
-        user.setRoles(roles);
+        if(user.getRoles().size()==0)
+        {
+            roles.add(roleRepository.findByName(ERole.ROLE_GENERAL).orElseThrow(() -> new RuntimeException("Role is not Found")));
+            user.setRoles(roles);
+        }
         userRepository.save(user);
         return true;
     }

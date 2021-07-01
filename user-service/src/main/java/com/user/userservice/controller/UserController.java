@@ -1,27 +1,42 @@
 package com.user.userservice.controller;
 
+import com.user.userservice.entity.AuthRequest;
 import com.user.userservice.model.User;
 import com.user.userservice.service.UserService;
+import com.user.userservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user-service")
 public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @GetMapping("/hello")
     public String greeting(){
         return "Hello, Welcome to User Service.";
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<Boolean> loginUser(@RequestBody User user){
-        return new ResponseEntity<Boolean>(this.userService.loginUser(user.getEmail(),user.getPassword()), HttpStatus.OK);
+    @PostMapping("/login")
+    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+       try {
+           authenticationManager.authenticate(
+                   new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
+           );
+       }catch (Exception e){
+           throw new Exception("Invalid username/password");
+       }
+
+        return  jwtUtil.generateToken(authRequest.getEmail());
     }
 
     @PostMapping("/register")

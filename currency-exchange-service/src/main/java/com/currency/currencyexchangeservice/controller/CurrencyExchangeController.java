@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/exchange-service")
 public class CurrencyExchangeController {
 
     @Autowired
