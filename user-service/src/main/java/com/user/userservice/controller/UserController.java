@@ -7,6 +7,7 @@ import com.user.userservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/hello")
+    @PreAuthorize("hasAuthority('ROLE_GENERAL') or hasAuthority('ROLE_ADMIN')")
     public String greeting(){
         return "Hello, Welcome to User Service.";
     }
@@ -36,7 +38,7 @@ public class UserController {
            throw new Exception("Invalid username/password");
        }
 
-        return  jwtUtil.generateToken(authRequest.getEmail());
+       return  jwtUtil.generateToken(authRequest.getEmail());
     }
 
     @PostMapping("/register")
@@ -44,6 +46,16 @@ public class UserController {
         Boolean bool=userService.createUser(user);
         if(!bool){
             return new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+    }
+
+    @PutMapping("/role/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> updateMyRole(@PathVariable Integer id){
+        Boolean bool=userService.updateRole(id);
+        if(!bool){
+            return new ResponseEntity<Boolean>(false,HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity<Boolean>(true,HttpStatus.OK);
     }

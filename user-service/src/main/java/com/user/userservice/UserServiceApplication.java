@@ -31,15 +31,15 @@ public class UserServiceApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		roleRepository.save(new Role(ERole.ROLE_GENERAL));
-		roleRepository.save(new Role(ERole.ROLE_ADMIN));
-
-		//Adding a admin
-		Set<Role> roles = new HashSet<>();
-		roles.add(roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Role is not Found")));
-		User userAdmin=new User("root","root");
-		userAdmin.setRoles(roles);
-		userService.createUser(userAdmin);
+//		roleRepository.save(new Role(ERole.ROLE_GENERAL));
+//		roleRepository.save(new Role(ERole.ROLE_ADMIN));
+//
+//		//Adding a admin
+//		Set<Role> roles = new HashSet<>();
+//		roles.add(roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Role is not Found")));
+//		User userAdmin=new User("root","root");
+//		userAdmin.setRoles(roles);
+//		userService.createUser(userAdmin);
 
 	}
 }

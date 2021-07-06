@@ -1,6 +1,7 @@
 package com.currency.currencyconversionservice.controller;
 
 import com.currency.currencyconversionservice.entity.CurrencyConversionObj;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +15,16 @@ import java.math.BigDecimal;
 @RequestMapping
 public class CurrencyConversionController {
 
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("/from/{from}/to/{to}/{quantity}")
     public CurrencyConversionObj getCurrencyConversionObj(@PathVariable String from,
                                                           @PathVariable String to,
                                                           @PathVariable BigDecimal quantity){
-        RestTemplate restTemplate=new RestTemplate();
+
         ResponseEntity<CurrencyConversionObj> responseEntity =
-                restTemplate.getForEntity("http://localhost:9001/from/"+from+"/to/"+to,CurrencyConversionObj.class);
+                this.restTemplate.getForEntity("http://exchange-service/from/"+from+"/to/"+to,CurrencyConversionObj.class);
 
         CurrencyConversionObj response=responseEntity.getBody();
         return new CurrencyConversionObj(1001,from,to,quantity,
