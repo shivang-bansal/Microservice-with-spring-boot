@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("/api")
 public class CurrencyExchangeController {
 
     @Autowired

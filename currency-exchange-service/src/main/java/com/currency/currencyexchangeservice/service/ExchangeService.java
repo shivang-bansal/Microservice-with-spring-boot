@@ -31,7 +31,10 @@ public class ExchangeService {
     }
 
     public CurrencyExchangeRate findRate(String from, String to){
-        return exchangeServiceRepository.findByFromAndTo(from,to);
+        CurrencyExchangeRate rate= exchangeServiceRepository.findByFromAndTo(from,to);
+        CurrencyExchangeRate result=new CurrencyExchangeRate(rate.getId(),rate.getFrom(),rate.getTo(),rate.getExchangeRate());
+
+        return result;
     }
 
     public BatchStatus loadDataFromCSVtoDB() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {

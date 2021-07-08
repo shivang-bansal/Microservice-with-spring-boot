@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("/api")
 public class CurrencyConversionController {
 
     @Autowired

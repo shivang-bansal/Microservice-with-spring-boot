@@ -35,4 +35,11 @@ public class CurrencyExchangeRate {
         this.exchangeRate = exchangeRate;
         this.time=time;
     }
+
+    public CurrencyExchangeRate(Integer id, String from, String to, BigDecimal exchangeRate) {
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.exchangeRate = exchangeRate;
+    }
 }

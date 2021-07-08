@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Getter @Setter @NoArgsConstructor
@@ -26,5 +27,12 @@ public class CurrencyConversionObj {
         this.quantity = quantity;
         this.exchangeRate = exchangeRate;
         this.calcAmount = calcAmount;
+    }
+
+    public CurrencyConversionObj(Integer id, String from, String to, BigDecimal exchangeRate) {
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.exchangeRate = exchangeRate;
     }
 }
