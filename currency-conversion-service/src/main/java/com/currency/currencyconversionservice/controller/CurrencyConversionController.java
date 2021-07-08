@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping
+@RequestMapping("api/")
 public class CurrencyConversionController {
 
     @Autowired
@@ -24,10 +24,10 @@ public class CurrencyConversionController {
                                                           @PathVariable BigDecimal quantity){
 
         ResponseEntity<CurrencyConversionObj> responseEntity =
-                this.restTemplate.getForEntity("http://exchange-service/from/"+from+"/to/"+to,CurrencyConversionObj.class);
+                this.restTemplate.getForEntity("http://exchange-service/api/from/"+from+"/to/"+to,CurrencyConversionObj.class);
 
         CurrencyConversionObj response=responseEntity.getBody();
-        return new CurrencyConversionObj(1001,from,to,quantity,
+        return new CurrencyConversionObj(1,from,to,quantity,
                 response.getExchangeRate(),quantity.multiply(response.getExchangeRate()));
     }
 
