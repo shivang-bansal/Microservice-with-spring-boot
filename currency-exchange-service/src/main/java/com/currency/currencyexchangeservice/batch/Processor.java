@@ -11,7 +11,7 @@ public class Processor implements ItemProcessor<CurrencyExchangeRate,CurrencyExc
 
     @Override
     public CurrencyExchangeRate process(CurrencyExchangeRate currencyExchangeRate) throws Exception {
-        currencyExchangeRate.setTime(new Date());
+
         return currencyExchangeRate;
     }
 }

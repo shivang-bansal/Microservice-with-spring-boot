@@ -25,16 +25,18 @@ public class ExchangeService {
     @Autowired
     private Job job;
 
-    public boolean addRate(CurrencyExchangeRate currencyExchangeRate){
-        exchangeServiceRepository.save(currencyExchangeRate);
-        return true;
+    public CurrencyExchangeRate addRate(CurrencyExchangeRate currencyExchangeRate){
+        if(findRate(currencyExchangeRate.getFrom(),currencyExchangeRate.getTo())!=null){
+            return findRate(currencyExchangeRate.getFrom(),currencyExchangeRate.getTo());
+        }
+        CurrencyExchangeRate result=exchangeServiceRepository.save(currencyExchangeRate);
+
+        return result;
     }
 
     public CurrencyExchangeRate findRate(String from, String to){
         CurrencyExchangeRate rate= exchangeServiceRepository.findByFromAndTo(from,to);
-        CurrencyExchangeRate result=new CurrencyExchangeRate(rate.getId(),rate.getFrom(),rate.getTo(),rate.getExchangeRate());
-
-        return result;
+        return rate;
     }
 
     public BatchStatus loadDataFromCSVtoDB() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {

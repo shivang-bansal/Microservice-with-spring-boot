@@ -26,14 +26,12 @@ public class CurrencyExchangeRate {
     @Column(name = "exchange_to")
     private String to;
     @Column(name="created_time")
-    private Date time;
     private BigDecimal exchangeRate;
 
     public CurrencyExchangeRate( String from, String to, BigDecimal exchangeRate,Date time) {
         this.from = from;
         this.to = to;
         this.exchangeRate = exchangeRate;
-        this.time=time;
     }
 
     public CurrencyExchangeRate(Integer id, String from, String to, BigDecimal exchangeRate) {

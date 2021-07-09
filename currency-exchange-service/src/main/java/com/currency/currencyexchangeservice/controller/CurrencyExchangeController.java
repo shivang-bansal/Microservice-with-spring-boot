@@ -8,6 +8,8 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -20,14 +22,24 @@ public class CurrencyExchangeController {
     private ExchangeService exchangeService;
 
     @GetMapping("/from/{from}/to/{to}")
-    public CurrencyExchangeRate getCurrencyExchangeRate(@PathVariable String from, @PathVariable String to){
-        return exchangeService.findRate(from,to);
+    public ResponseEntity<CurrencyExchangeRate> getCurrencyExchangeRate(@PathVariable String from, @PathVariable String to){
+        try {
+            CurrencyExchangeRate result = exchangeService.findRate(from,to);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/rate")
-    public boolean addCurrencyExchangeRate(@RequestBody CurrencyExchangeRate currencyExchangeRate){
-        boolean flag=exchangeService.addRate(currencyExchangeRate);
-        return flag;
+    public ResponseEntity<CurrencyExchangeRate> addCurrencyExchangeRate(@RequestBody CurrencyExchangeRate currencyExchangeRate){
+        try {
+            CurrencyExchangeRate result = exchangeService.addRate(currencyExchangeRate);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @GetMapping("/load")
